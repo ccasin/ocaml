@@ -151,7 +151,7 @@ let mk_I f =
 let mk_H f =
   "-H", Arg.String f,
   "<dir>  Add <dir> to the list of \"hidden\" include directories\n\
-  \     (Like -I, but the program can not directly reference these dependencies)"
+ \     (Like -I, but the program can not directly reference these dependencies)"
 
 let mk_impl f =
   "-impl", Arg.String f, "<file>  Compile <file> as a .ml file"

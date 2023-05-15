@@ -137,7 +137,8 @@ let remove_dir dir =
 (* General purpose version of function to add a new entry to load path: We only
    add a basename to the cache if:
    - it is not already present in the cache, or
-   - it is in a visible directory and the old basename was from a hidden directory
+   - it is in a visible directory and the old basename was from a hidden
+     directory
    This enforces the precedence rules. (-I before -H, each left to right) *)
 let add (dir : Dir.t) =
   assert (not Config.merlin || Local_store.is_bound ());
