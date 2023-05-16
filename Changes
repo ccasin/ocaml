@@ -33,7 +33,7 @@ Working version
 
 ### Compiler user-interface and warnings:
 
-- #??: New flag, -H, to allow for transitive depdencies without including them
+- #??: New flag, -H, to allow for transitive dependencies without including them
   in the initial environment.
   (Chris Casinghino, François Bobot, and Gabriel Scherer, review by ??)
 

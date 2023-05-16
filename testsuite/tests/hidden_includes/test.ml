@@ -50,7 +50,7 @@ ocamlc.byte;
   setup-ocamlc.byte-build-env;
   ocamlc_byte_exit_status = "2";
   ocamlc.byte;
-  compiler_reference = "${test_source_directory}/c1_1.ocamlc.reference";
+  compiler_reference = "${test_source_directory}/not_included.ocamlc.reference";
   check-ocamlc.byte-output;
 }
 {
@@ -74,7 +74,8 @@ ocamlc.byte;
   setup-ocamlc.byte-build-env;
   ocamlc_byte_exit_status = "2";
   ocamlc.byte;
-  compiler_reference = "${test_source_directory}/c3_1.ocamlc.reference";
+  compiler_reference =
+    "${test_source_directory}/cant_reference_hidden.ocamlc.reference";
   check-ocamlc.byte-output;
 }
 
@@ -99,7 +100,8 @@ ocamlc.byte;
   setup-ocamlc.byte-build-env;
   ocamlc_byte_exit_status = "2";
   ocamlc.byte;
-  compiler_reference = "${test_source_directory}/c1_2.ocamlc.reference";
+  compiler_reference =
+    "${test_source_directory}/wrong_include_order.ocamlc.reference";
   check-ocamlc.byte-output;
 }
 {
@@ -108,7 +110,8 @@ ocamlc.byte;
   setup-ocamlc.byte-build-env;
   ocamlc_byte_exit_status = "2";
   ocamlc.byte;
-  compiler_reference = "${test_source_directory}/c1_2.ocamlc.reference";
+  compiler_reference =
+    "${test_source_directory}/wrong_include_order.ocamlc.reference";
   check-ocamlc.byte-output;
 }
 
@@ -119,7 +122,8 @@ ocamlc.byte;
   setup-ocamlc.byte-build-env;
   ocamlc_byte_exit_status = "2";
   ocamlc.byte;
-  compiler_reference = "${test_source_directory}/c1_2.ocamlc.reference";
+  compiler_reference =
+    "${test_source_directory}/wrong_include_order.ocamlc.reference";
   check-ocamlc.byte-output;
 }
 {
