@@ -4033,16 +4033,16 @@ attr_id:
 ;
 attribute:
   LBRACKETAT attr_id payload RBRACKET
-    { Attr.mk ~loc:(make_loc $sloc) $2 $3 }
+    { Builtin_attributes.mk_internal ~loc:(make_loc $sloc) $2 $3 }
 ;
 post_item_attribute:
   LBRACKETATAT attr_id payload RBRACKET
-    { Attr.mk ~loc:(make_loc $sloc) $2 $3 }
+    { Builtin_attributes.mk_internal ~loc:(make_loc $sloc) $2 $3 }
 ;
 floating_attribute:
   LBRACKETATATAT attr_id payload RBRACKET
     { mark_symbol_docs $sloc;
-      Attr.mk ~loc:(make_loc $sloc) $2 $3 }
+      Builtin_attributes.mk_internal ~loc:(make_loc $sloc) $2 $3 }
 ;
 %inline post_item_attributes:
   post_item_attribute*

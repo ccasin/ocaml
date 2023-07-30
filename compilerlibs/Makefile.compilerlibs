@@ -55,6 +55,7 @@ PARSING = \
   parsing/docstrings.cmo \
   parsing/syntaxerr.cmo \
   parsing/ast_helper.cmo \
+  parsing/builtin_attributes.cmo \
   parsing/camlinternalMenhirLib.cmo \
   parsing/parser.cmo \
   parsing/lexer.cmo \
@@ -64,7 +65,6 @@ PARSING = \
   parsing/ast_mapper.cmo \
   parsing/ast_iterator.cmo \
   parsing/attr_helper.cmo \
-  parsing/builtin_attributes.cmo \
   parsing/ast_invariants.cmo \
   parsing/depend.cmo
 PARSING_CMI = \

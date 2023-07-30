@@ -1428,8 +1428,8 @@ ocamlprof_LIBRARIES =
 ocamlprof_MODULES = \
   config build_path_prefix_map misc identifiable numbers arg_helper \
   local_store load_path clflags terminfo warnings location longident \
-  docstrings syntaxerr ast_helper camlinternalMenhirLib parser \
-  lexer pprintast parse ocamlprof
+  docstrings syntaxerr ast_helper builtin_attributes camlinternalMenhirLib \
+  parser lexer pprintast parse ocamlprof
 
 ocamlcp_ocamloptp_MODULES = \
   config build_path_prefix_map misc profile warnings identifiable numbers \

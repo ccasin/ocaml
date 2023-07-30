@@ -2331,7 +2331,7 @@ module Tables = struct
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
         let _endpos = _endpos__1_ in
-        let _v : (Ast_helper.str) = let _1 =
+        let _v : (string Asttypes.loc) = let _1 =
           let _1 = 
 # 4030 "parsing/parser.mly"
                      ( _1 )
@@ -2379,13 +2379,13 @@ module Tables = struct
             };
           };
         } = _menhir_stack in
-        let _3 : (Ast_helper.str) = Obj.magic _3 in
+        let _3 : (string Asttypes.loc) = Obj.magic _3 in
         let _2 : unit = Obj.magic _2 in
         let _1 : (string) = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
         let _endpos = _endpos__3_ in
-        let _v : (Ast_helper.str) = let _1 =
+        let _v : (string Asttypes.loc) = let _1 =
           let _1 = 
 # 4031 "parsing/parser.mly"
                                  ( _1 ^ "." ^ _3.txt )
@@ -2442,7 +2442,7 @@ module Tables = struct
         } = _menhir_stack in
         let _4 : unit = Obj.magic _4 in
         let _3 : (Parsetree.payload) = Obj.magic _3 in
-        let _2 : (Ast_helper.str) = Obj.magic _2 in
+        let _2 : (string Asttypes.loc) = Obj.magic _2 in
         let _1 : unit = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
@@ -2452,7 +2452,7 @@ module Tables = struct
         let _sloc = (_symbolstartpos, _endpos) in
         
 # 4036 "parsing/parser.mly"
-    ( Attr.mk ~loc:(make_loc _sloc) _2 _3 )
+    ( Builtin_attributes.mk_internal ~loc:(make_loc _sloc) _2 _3 )
 # 2457 "parsing/parser.ml"
          in
         {
@@ -7562,7 +7562,7 @@ module Tables = struct
             MenhirLib.EngineTypes.next = _menhir_stack;
           };
         } = _menhir_stack in
-        let _2 : (Ast_helper.str) = Obj.magic _2 in
+        let _2 : (string Asttypes.loc) = Obj.magic _2 in
         let _1 : unit = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
@@ -7608,7 +7608,7 @@ module Tables = struct
         } = _menhir_stack in
         let _4 : unit = Obj.magic _4 in
         let _3 : (Parsetree.payload) = Obj.magic _3 in
-        let _2 : (Ast_helper.str) = Obj.magic _2 in
+        let _2 : (string Asttypes.loc) = Obj.magic _2 in
         let _1 : unit = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
@@ -7901,7 +7901,7 @@ module Tables = struct
         } = _menhir_stack in
         let _4 : unit = Obj.magic _4 in
         let _3 : (Parsetree.payload) = Obj.magic _3 in
-        let _2 : (Ast_helper.str) = Obj.magic _2 in
+        let _2 : (string Asttypes.loc) = Obj.magic _2 in
         let _1 : unit = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
@@ -7912,7 +7912,7 @@ module Tables = struct
         
 # 4044 "parsing/parser.mly"
     ( mark_symbol_docs _sloc;
-      Attr.mk ~loc:(make_loc _sloc) _2 _3 )
+      Builtin_attributes.mk_internal ~loc:(make_loc _sloc) _2 _3 )
 # 7917 "parsing/parser.ml"
          in
         {
@@ -20134,7 +20134,7 @@ module Tables = struct
           };
         } = _menhir_stack in
         let _5 : (Parsetree.expression) = Obj.magic _5 in
-        let _4 : (Ast_helper.str) = Obj.magic _4 in
+        let _4 : (string Asttypes.loc) = Obj.magic _4 in
         let _3 : unit = Obj.magic _3 in
         let _2 : unit = Obj.magic _2 in
         let _1 : (Parsetree.expression) = Obj.magic _1 in
@@ -21746,7 +21746,7 @@ module Tables = struct
         } = _menhir_stack in
         let _4 : unit = Obj.magic _4 in
         let _3 : (Parsetree.payload) = Obj.magic _3 in
-        let _2 : (Ast_helper.str) = Obj.magic _2 in
+        let _2 : (string Asttypes.loc) = Obj.magic _2 in
         let _1 : unit = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
@@ -23581,7 +23581,7 @@ module Tables = struct
   Parsetree.value_constraint option * bool) = Obj.magic body in
         let rec_flag : (Asttypes.rec_flag) = Obj.magic rec_flag in
         let _1_inlined2 : (Parsetree.attributes) = Obj.magic _1_inlined2 in
-        let _2 : (Ast_helper.str) = Obj.magic _2 in
+        let _2 : (string Asttypes.loc) = Obj.magic _2 in
         let _1_inlined1 : unit = Obj.magic _1_inlined1 in
         let _1 : unit = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
@@ -38518,7 +38518,7 @@ module Tables = struct
         } = _menhir_stack in
         let _4 : unit = Obj.magic _4 in
         let _3 : (Parsetree.payload) = Obj.magic _3 in
-        let _2 : (Ast_helper.str) = Obj.magic _2 in
+        let _2 : (string Asttypes.loc) = Obj.magic _2 in
         let _1 : unit = Obj.magic _1 in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos__1_ in
@@ -38528,7 +38528,7 @@ module Tables = struct
         let _sloc = (_symbolstartpos, _endpos) in
         
 # 4040 "parsing/parser.mly"
-    ( Attr.mk ~loc:(make_loc _sloc) _2 _3 )
+    ( Builtin_attributes.mk_internal ~loc:(make_loc _sloc) _2 _3 )
 # 38533 "parsing/parser.ml"
          in
         {
