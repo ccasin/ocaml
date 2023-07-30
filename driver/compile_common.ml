@@ -123,5 +123,6 @@ let implementation info ~backend =
         backend info typed
       end;
     end;
+    Builtin_attributes.warn_unused ();
     Warnings.check_fatal ();
   )
