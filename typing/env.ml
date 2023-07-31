@@ -2047,8 +2047,7 @@ and store_extension ~check ~rebind id addr ext shape env =
       cda_shape = shape }
   in
   Builtin_attributes.mark_alerts_used ext.ext_attributes;
-  Builtin_attributes.mark_alerts_used cstr.cstr_attributes;
-  Builtin_attributes.mark_warn_on_literal_pattern_used cstr.cstr_attributes;
+  Builtin_attributes.mark_warn_on_literal_pattern_used ext.ext_attributes;
   Builtin_attributes.warning_scope ext.ext_attributes (fun () ->
   if check && not loc.Location.loc_ghost &&
     Warnings.is_active (Warnings.Unused_extension ("", false, Unused))
@@ -2082,6 +2081,7 @@ and store_module ?(update_summary=true) ~check
   let loc = md.mdl_loc in
   Option.iter
     (fun f -> check_usage loc id md.mdl_uid f !module_declarations) check;
+  Builtin_attributes.mark_alerts_used md.mdl_attributes;
   let alerts = Builtin_attributes.alerts_of_attrs md.mdl_attributes in
   let comps =
     components_of_module ~alerts ~uid:md.mdl_uid

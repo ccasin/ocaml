@@ -130,6 +130,31 @@ let error_of_extension ext =
   | ({txt; loc}, _) ->
       Location.errorf ~loc "Uninterpreted extension '%s'." txt
 
+let mark_alerts_used l =
+  List.iter (fun a ->
+    match a.attr_name.txt with
+    | "ocaml.deprecated"|"deprecated"|"ocaml.alert"|"alert" ->
+      mark_used a.attr_name
+    | _ -> ())
+
+    l
+
+let mark_warn_on_literal_pattern_used l =
+  List.iter (fun a ->
+    match a.attr_name.txt with
+    | "ocaml.warn_on_literal_pattern"|"warn_on_literal_pattern" ->
+      mark_used a.attr_name
+    | _ -> ())
+    l
+
+let mark_deprecated_mutable_used l =
+  List.iter (fun a ->
+    match a.attr_name.txt with
+    | "ocaml.deprecated_mutable"|"deprecated_mutable" ->
+      mark_used a.attr_name
+    | _ -> ())
+    l
+
 let kind_and_message = function
   | PStr[
       {pstr_desc=
@@ -152,13 +177,11 @@ let cat s1 s2 =
 let alert_attr x =
   match x.attr_name.txt with
   | "ocaml.deprecated"|"deprecated" -> begin
-      mark_used x.attr_name;
       Some (x, "deprecated", string_of_opt_payload x.attr_payload)
     end
   | "ocaml.alert"|"alert" ->
       begin match kind_and_message x.attr_payload with
       | Some (kind, message) -> begin
-        mark_used x.attr_name;
         Some (x, kind, message)
       end
       | None -> None (* note: bad payloads detected by warning_attribute *)
@@ -167,30 +190,6 @@ let alert_attr x =
 
 let alert_attrs l =
   List.filter_map alert_attr l
-
-let mark_alerts_used l =
-  List.iter (fun a ->
-    match a.attr_name.txt with
-    | "ocaml.deprecated"|"deprecated"|"ocaml.alert"|"alert" ->
-      mark_used a.attr_name
-    | _ -> ())
-    l
-
-let mark_warn_on_literal_pattern_used l =
-  List.iter (fun a ->
-    match a.attr_name.txt with
-    | "ocaml.warn_on_literal_pattern"|"warn_on_literal_pattern" ->
-      mark_used a.attr_name
-    | _ -> ())
-    l
-
-let mark_deprecated_mutable_used l =
-  List.iter (fun a ->
-    match a.attr_name.txt with
-    | "ocaml.deprecated_mutable"|"deprecated_mutable" ->
-      mark_used a.attr_name
-    | _ -> ())
-    l
 
 let alerts_of_attrs l =
   List.fold_left
@@ -272,21 +271,29 @@ let warning_attribute ?(ppwarning = true) =
     | None ->
         warn_payload loc name.txt "A single string literal is expected"
   in
-  let process_alert loc txt = function
+  let process_alert loc ({txt; _} as name) = function
     | PStr[{pstr_desc=
               Pstr_eval(
                 {pexp_desc=Pexp_constant(Pconst_string(s,_,_))},
                 _)
            }] ->
-        begin try Warnings.parse_alert_option s
-        with Arg.Bad msg -> warn_payload loc txt msg
+        begin
+          mark_used name;
+          try Warnings.parse_alert_option s
+          with Arg.Bad msg -> warn_payload loc txt msg
         end
     | k ->
+        (* Don't [mark_used] in the [Some] cases - that happens in [Env] if they
+           are in a valid place.  Do [mark_used] in the [None] case, which is
+           just malformed and covered by the "Invalid payload" warning. *)
         match kind_and_message k with
         | Some ("all", _) ->
             warn_payload loc txt "The alert name 'all' is reserved"
         | Some _ -> ()
-        | None -> warn_payload loc txt "Invalid payload"
+        | None -> begin
+            mark_used name;
+            warn_payload loc txt "Invalid payload"
+          end
   in
   function
   | {attr_name = {txt = ("ocaml.warning"|"warning"); _} as name;
@@ -319,8 +326,7 @@ let warning_attribute ?(ppwarning = true) =
      attr_loc;
      attr_payload;
      } ->
-      (mark_used name;
-       process_alert attr_loc name.txt attr_payload)
+       process_alert attr_loc name attr_payload
   | _ ->
      ()
 
