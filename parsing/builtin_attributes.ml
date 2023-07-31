@@ -33,7 +33,7 @@ let mark_used t = Attribute_table.remove unused_attrs t
 let attr_order a1 a2 =
   match String.compare a1.loc.loc_start.pos_fname a2.loc.loc_start.pos_fname
   with
-  | 0 -> Int.compare a1.loc.loc_start.pos_lnum a2.loc.loc_start.pos_lnum
+  | 0 -> Int.compare a1.loc.loc_start.pos_cnum a2.loc.loc_start.pos_cnum
   | n -> n
 
 let warn_unused () =

@@ -193,15 +193,15 @@ File "w53.ml", line 127, characters 6-17:
             ^^^^^^^^^^^
 Warning 53 [misplaced-attribute]: the "immediate64" attribute cannot appear in this context
 
-File "w53.ml", line 131, characters 32-43:
-131 |   let x = (4 [@immediate], 42 [@immediate64]) (* rejected *)
-                                      ^^^^^^^^^^^
-Warning 53 [misplaced-attribute]: the "immediate64" attribute cannot appear in this context
-
 File "w53.ml", line 131, characters 15-24:
 131 |   let x = (4 [@immediate], 42 [@immediate64]) (* rejected *)
                      ^^^^^^^^^
 Warning 53 [misplaced-attribute]: the "immediate" attribute cannot appear in this context
+
+File "w53.ml", line 131, characters 32-43:
+131 |   let x = (4 [@immediate], 42 [@immediate64]) (* rejected *)
+                                      ^^^^^^^^^^^
+Warning 53 [misplaced-attribute]: the "immediate64" attribute cannot appear in this context
 
 File "w53.ml", line 132, characters 21-30:
 132 |   let y = (4, 42) [@@immediate] (* rejected *)
@@ -378,14 +378,14 @@ File "w53.ml", line 201, characters 19-26:
                          ^^^^^^^
 Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
 
-File "w53.ml", line 203, characters 46-53:
-203 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
-                                                    ^^^^^^^
-Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
-
 File "w53.ml", line 203, characters 24-31:
 203 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
                               ^^^^^^^
+Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
+
+File "w53.ml", line 203, characters 46-53:
+203 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
+                                                    ^^^^^^^
 Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
 
 File "w53.ml", line 208, characters 21-28:
