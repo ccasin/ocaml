@@ -7,7 +7,7 @@
 *)
 
 module type TestAlertSig = sig
-  type t1 = Foo1 [@alert foo "foo"] (* rejected *)
+  type t1 = Foo1 [@alert foo "foo"] (* accepted *)
 
   val x : int [@alert foo "foo"] (* rejected *)
 
@@ -15,15 +15,15 @@ module type TestAlertSig = sig
 
   val y : int [@@alert foo "foo"] (* accepted *)
 
-  [@@@alert foo "foo"] (* accepted *)
+  [@@@alert foo "foo"] (* rejected *)
 end
 
-module TestAlertStruct = struct  (* CJC XXX THIS IS ALL BUGGY *)
+module TestAlertStruct = struct
   let x = 5 [@alert foo "foo"] (* rejected *)
 
   let y = 10 [@@alert foo "foo"] (* rejected *)
 
-  [@@@alert foo "foo"] (* accepted *)
+  [@@@alert foo "foo"] (* rejected *)
 end
 
 
@@ -49,7 +49,7 @@ end
 
 
 module type TestDeprecatedSig = sig
-  type t1 = Foo1 [@deprecated] (* rejected *)
+  type t1 = Foo1 [@deprecated] (* accepted *)
 
   val x : int [@deprecated] (* rejected *)
 
@@ -57,7 +57,7 @@ module type TestDeprecatedSig = sig
 
   val y : int [@@deprecated] (* accepted *)
 
-  [@@@deprecated] (* accepted *)
+  [@@@deprecated] (* rejected *)
 end
 
 module TestDeprecatedStruct = struct  (* CJC XXX THIS IS ALL BUGGY *)
@@ -65,7 +65,7 @@ module TestDeprecatedStruct = struct  (* CJC XXX THIS IS ALL BUGGY *)
 
   let y = 10 [@@deprecated] (* rejected *)
 
-  [@@@deprecated] (* accepted *)
+  [@@@deprecated] (* rejected *)
 end
 
 
@@ -90,7 +90,7 @@ module TestDeprecatedMutableStruct = struct
 
   let y = 10 [@@deprecated_mutable] (* rejected *)
 
-  [@@@deprecated_mutable] (* accepted *)
+  [@@@deprecated_mutable] (* rejected *)
 end
 
 
@@ -185,13 +185,13 @@ module TestInlineStruct = struct
   module G = (A [@inline])(struct end) (* rejected *)
   module G' = (A [@ocaml.inline])(struct end) (* rejected *)
 
-  module H = Set.Make [@inlined] (Int32) (* GPR#1808 *)
+  module H = Set.Make [@inlined] (Int32) (* accepted *) (* GPR#1808 *)
 
-  module I = Set.Make [@inlined]
-  module I' = Set.Make [@ocaml.inlined]
+  module I = Set.Make [@inlined] (* rejected *)
+  module I' = Set.Make [@ocaml.inlined] (* rejected *)
 
-  module J = Set.Make [@@inlined]
-  module J' = Set.Make [@@ocaml.inlined]
+  module J = Set.Make [@@inlined] (* rejected *)
+  module J' = Set.Make [@@ocaml.inlined] (* rejected *)
 end
 
 
@@ -340,9 +340,9 @@ end
 
 
 module type TestWarnErrorSig = sig
-  type t1 = Foo1 [@warnerror "-a+31"] (* rejected *)
+  type t1 = Foo1 [@warnerror "-a+31"] (* accepted *)
 
-  val x : int [@warnerror "-a+31"] (* rejected *)
+  val x : int [@warnerror "-a+31"] (* accepted *)
 
   type 'a t2 = 'a [@@warnerror "-a+31"] (* accepted *)
 
@@ -351,19 +351,19 @@ module type TestWarnErrorSig = sig
   [@@@warnerror "-a+31"] (* accepted *)
 end
 
-module TestWarnErrorStruct = struct  (* CJC XXX THIS IS ALL BUGGY *)
-  let x = 5 [@warnerror "-a+31"] (* rejected *)
+module TestWarnErrorStruct = struct
+  let x = 5 [@warnerror "-a+31"] (* accepted *)
 
-  let y = 10 [@@warnerror "-a+31"] (* rejected *)
+  let y = 10 [@@warnerror "-a+31"] (* accepted *)
 
   [@@@warnerror "-a+31"] (* accepted *)
 end
 
 
 module type TestWarningSig = sig
-  type t1 = Foo1 [@warning "-a+31"] (* rejected *)
+  type t1 = Foo1 [@warning "-a+31"] (* accepted *)
 
-  val x : int [@warning "-a+31"] (* rejected *)
+  val x : int [@warning "-a+31"] (* accepted *)
 
   type 'a t2 = 'a [@@warning "-a+31"] (* accepted *)
 
@@ -372,10 +372,10 @@ module type TestWarningSig = sig
   [@@@warning "-a+31"] (* accepted *)
 end
 
-module TestWarningStruct = struct  (* CJC XXX THIS IS ALL BUGGY *)
-  let x = 5 [@warning "-a+31"] (* rejected *)
+module TestWarningStruct = struct
+  let x = 5 [@warning "-a+31"] (* accepted *)
 
-  let y = 10 [@@warning "-a+31"] (* rejected *)
+  let y = 10 [@@warning "-a+31"] (* accepted *)
 
   [@@@warning "-a+31"] (* accepted *)
 end
@@ -386,7 +386,7 @@ module type TestWarnOnLiteralPatternSig = sig
     | Lit_pat1 of int [@warn_on_literal_pattern]  (* accepted *)
     | Lit_pat2 of int [@@warn_on_literal_pattern] (* rejected *)
 
-  type t1 = Foo1 [@warn_on_literal_pattern] (* rejected *)
+  type t1 = Foo1 [@warn_on_literal_pattern] (* accepted *)
 
   val x : int [@warn_on_literal_pattern] (* rejected *)
 
