@@ -180,6 +180,10 @@ let iterator =
           "In object types, attaching attributes to inherited \
            subtypes is not allowed."
   in
+  let attribute self attr =
+    super.attribute self attr;
+    Builtin_attribute.register_attr attr.attr_name
+  in
   { super with
     type_declaration
   ; typ
@@ -195,6 +199,7 @@ let iterator =
   ; signature_item
   ; row_field
   ; object_field
+  ; attribute
   }
 
 let structure st = iterator.structure iterator st
