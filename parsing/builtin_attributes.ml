@@ -283,9 +283,10 @@ let warning_attribute ?(ppwarning = true) =
           with Arg.Bad msg -> warn_payload loc txt msg
         end
     | k ->
-        (* Don't [mark_used] in the [Some] cases - that happens in [Env] if they
-           are in a valid place.  Do [mark_used] in the [None] case, which is
-           just malformed and covered by the "Invalid payload" warning. *)
+        (* Don't [mark_used] in the [Some] cases - that happens in [Env] or
+           [type_mod] if they are in a valid place.  Do [mark_used] in the
+           [None] case, which is just malformed and covered by the "Invalid
+           payload" warning. *)
         match kind_and_message k with
         | Some ("all", _) ->
             warn_payload loc txt "The alert name 'all' is reserved"

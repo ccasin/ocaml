@@ -1,3 +1,28 @@
+File "w53.ml", line 12, characters 16-21:
+12 |   val x : int [@alert foo "foo"] (* rejected *)
+                     ^^^^^
+Warning 53 [misplaced-attribute]: the "alert" attribute cannot appear in this context
+
+File "w53.ml", line 18, characters 6-11:
+18 |   [@@@alert foo "foo"] (* rejected *)
+           ^^^^^
+Warning 53 [misplaced-attribute]: the "alert" attribute cannot appear in this context
+
+File "w53.ml", line 22, characters 14-19:
+22 |   let x = 5 [@alert foo "foo"] (* rejected *)
+                   ^^^^^
+Warning 53 [misplaced-attribute]: the "alert" attribute cannot appear in this context
+
+File "w53.ml", line 24, characters 16-21:
+24 |   let y = 10 [@@alert foo "foo"] (* rejected *)
+                     ^^^^^
+Warning 53 [misplaced-attribute]: the "alert" attribute cannot appear in this context
+
+File "w53.ml", line 26, characters 6-11:
+26 |   [@@@alert foo "foo"] (* rejected *)
+           ^^^^^
+Warning 53 [misplaced-attribute]: the "alert" attribute cannot appear in this context
+
 File "w53.ml", line 31, characters 24-29:
 31 |   type t1 = { x : int [@boxed] } (* rejected *)
                              ^^^^^
@@ -39,7 +64,7 @@ File "w53.ml", line 54, characters 16-26:
 Warning 53 [misplaced-attribute]: the "deprecated" attribute cannot appear in this context
 
 File "w53.ml", line 60, characters 6-16:
-60 |   [@@@deprecated] (* accepted *)
+60 |   [@@@deprecated] (* rejected *)
            ^^^^^^^^^^
 Warning 53 [misplaced-attribute]: the "deprecated" attribute cannot appear in this context
 
@@ -54,7 +79,7 @@ File "w53.ml", line 66, characters 16-26:
 Warning 53 [misplaced-attribute]: the "deprecated" attribute cannot appear in this context
 
 File "w53.ml", line 68, characters 6-16:
-68 |   [@@@deprecated] (* accepted *)
+68 |   [@@@deprecated] (* rejected *)
            ^^^^^^^^^^
 Warning 53 [misplaced-attribute]: the "deprecated" attribute cannot appear in this context
 
@@ -99,7 +124,7 @@ File "w53.ml", line 91, characters 16-34:
 Warning 53 [misplaced-attribute]: the "deprecated_mutable" attribute cannot appear in this context
 
 File "w53.ml", line 93, characters 6-24:
-93 |   [@@@deprecated_mutable] (* accepted *)
+93 |   [@@@deprecated_mutable] (* rejected *)
            ^^^^^^^^^^^^^^^^^^
 Warning 53 [misplaced-attribute]: the "deprecated_mutable" attribute cannot appear in this context
 
@@ -319,22 +344,22 @@ File "w53.ml", line 186, characters 19-31:
 Warning 53 [misplaced-attribute]: the "ocaml.inline" attribute cannot appear in this context
 
 File "w53.ml", line 190, characters 24-31:
-190 |   module I = Set.Make [@inlined]
+190 |   module I = Set.Make [@inlined] (* rejected *)
                               ^^^^^^^
 Warning 53 [misplaced-attribute]: the "inlined" attribute cannot appear in this context
 
 File "w53.ml", line 191, characters 25-38:
-191 |   module I' = Set.Make [@ocaml.inlined]
+191 |   module I' = Set.Make [@ocaml.inlined] (* rejected *)
                                ^^^^^^^^^^^^^
 Warning 53 [misplaced-attribute]: the "ocaml.inlined" attribute cannot appear in this context
 
 File "w53.ml", line 193, characters 25-32:
-193 |   module J = Set.Make [@@inlined]
+193 |   module J = Set.Make [@@inlined] (* rejected *)
                                ^^^^^^^
 Warning 53 [misplaced-attribute]: the "inlined" attribute cannot appear in this context
 
 File "w53.ml", line 194, characters 26-39:
-194 |   module J' = Set.Make [@@ocaml.inlined]
+194 |   module J' = Set.Make [@@ocaml.inlined] (* rejected *)
                                 ^^^^^^^^^^^^^
 Warning 53 [misplaced-attribute]: the "ocaml.inlined" attribute cannot appear in this context
 
@@ -353,14 +378,14 @@ File "w53.ml", line 201, characters 19-26:
                          ^^^^^^^
 Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
 
-File "w53.ml", line 203, characters 24-31:
-203 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
-                              ^^^^^^^
-Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
-
 File "w53.ml", line 203, characters 46-53:
 203 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
                                                     ^^^^^^^
+Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
+
+File "w53.ml", line 203, characters 24-31:
+203 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
+                              ^^^^^^^
 Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
 
 File "w53.ml", line 208, characters 21-28:
@@ -378,14 +403,14 @@ File "w53.ml", line 210, characters 25-32:
                                ^^^^^^^
 Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
 
-File "w53.ml", line 212, characters 46-53:
-212 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
-                                                    ^^^^^^^
-Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
-
 File "w53.ml", line 212, characters 24-31:
 212 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
                               ^^^^^^^
+Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
+
+File "w53.ml", line 212, characters 46-53:
+212 |   external y : (int64 [@noalloc]) -> (int64 [@noalloc]) = "x" (* rejected *)
+                                                    ^^^^^^^
 Warning 53 [misplaced-attribute]: the "noalloc" attribute cannot appear in this context
 
 File "w53.ml", line 241, characters 21-29:
