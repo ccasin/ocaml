@@ -73,14 +73,14 @@ let builtin_attrs =
 
 let is_builtin_attr s = Hashtbl.mem builtin_attrs s
 
-let register_attr name =
-  if is_builtin_attr name.txt
-  then Attribute_table.replace unused_attrs name ()
+type attr_tracking_time = Parser | Invariant_check
 
-let mk_internal ?(loc= !default_loc) name payload =
-  register_attr name;
-  Attr.mk ~loc name payload
-
+let register_attr attr_tracking_time name =
+  match attr_tracking_time with
+  | Parser when !Clflags.all_ppx <> [] -> ()
+  | Parser | Invariant_check ->
+    if is_builtin_attr name.txt then
+      Attribute_table.replace unused_attrs name ()
 
 let string_of_cst = function
   | Pconst_string(s, _, _) -> Some s
@@ -133,14 +133,13 @@ let error_of_extension ext =
   | ({txt; loc}, _) ->
       Location.errorf ~loc "Uninterpreted extension '%s'." txt
 
-let mark_alerts_used l =
-  List.iter (fun a ->
-    match a.attr_name.txt with
-    | "ocaml.deprecated"|"deprecated"|"ocaml.alert"|"alert" ->
-      mark_used a.attr_name
-    | _ -> ())
+let mark_alert_used a =
+  match a.attr_name.txt with
+  | "ocaml.deprecated"|"deprecated"|"ocaml.alert"|"alert" ->
+    mark_used a.attr_name
+  | _ -> ()
 
-    l
+let mark_alerts_used l = List.iter mark_alert_used l
 
 let mark_warn_on_literal_pattern_used l =
   List.iter (fun a ->
@@ -157,6 +156,16 @@ let mark_deprecated_mutable_used l =
       mark_used a.attr_name
     | _ -> ())
     l
+
+let mark_payload_attrs_used payload =
+  let iter =
+    { Ast_iterator.default_iterator
+      with attribute = fun self a ->
+        mark_used a.attr_name;
+        Ast_iterator.default_iterator.attribute self a
+    }
+  in
+  iter.payload iter payload
 
 let kind_and_message = function
   | PStr[

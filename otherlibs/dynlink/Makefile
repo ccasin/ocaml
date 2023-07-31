@@ -92,6 +92,7 @@ COMPILERLIBS_SOURCES=\
   parsing/docstrings.ml \
   parsing/syntaxerr.ml \
   parsing/ast_helper.ml \
+  parsing/ast_iterator.ml \
   parsing/builtin_attributes.ml \
   parsing/ast_mapper.ml \
   parsing/camlinternalMenhirLib.ml \

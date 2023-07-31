@@ -410,6 +410,5 @@ module TestWarnOnLiteralPatternStruct = struct
 end
 
 
-
-
-
+(* Attributes in attributes shouldn't be tracked for w53 *)
+[@@@foo [@@@deprecated]]

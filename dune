@@ -49,7 +49,7 @@
 
    ;; PARSING
    location longident docstrings syntaxerr ast_helper camlinternalMenhirLib
-   parser lexer parse printast pprintast ast_mapper ast_iterator attr_helper
+   ast_iterator parser lexer parse printast pprintast ast_mapper attr_helper
    builtin_attributes ast_invariants depend
    ; manual update: mli only files
    asttypes parsetree
