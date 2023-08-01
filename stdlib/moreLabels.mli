@@ -60,10 +60,6 @@ module Hashtbl : sig
 
   (** {b Unsynchronized accesses} *)
 
-  [@@@alert unsynchronized_access
-      "Unsynchronized accesses to hash tables are a programming error."
-  ]
-
    (**
       Unsynchronized accesses to a hash table may lead to an invalid hash table
       state. Thus, concurrent accesses to a hash tables must be synchronized
