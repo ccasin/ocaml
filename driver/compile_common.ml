@@ -69,6 +69,7 @@ let typecheck_intf info ast =
           sg);
   ignore (Includemod.signatures info.env ~mark:Mark_both sg sg);
   Typecore.force_delayed_checks ();
+  Builtin_attributes.warn_unused ();
   Warnings.check_fatal ();
   tsg
 
@@ -123,5 +124,6 @@ let implementation info ~backend =
         backend info typed
       end;
     end;
+    Builtin_attributes.warn_unused ();
     Warnings.check_fatal ();
   )
