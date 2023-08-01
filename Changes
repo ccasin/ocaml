@@ -165,6 +165,9 @@ Working version
   module (e.g `module M = Int(Int)`)
   (Florian Angeletti, review by Gabriel Scherer)
 
+- #12451: Warning 53 (misplaced attributes) now works for all attributes.
+  (Chris Casinghino, review by ???)
+
 ### Internal/compiler-libs changes:
 
 - #12216, #12248: Prevent reordering of atomic loads during instruction
