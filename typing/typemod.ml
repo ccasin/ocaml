@@ -1678,7 +1678,8 @@ and transl_signature ?(toplevel = false) env sg =
             typedtree, sg, final_env
         | Psig_attribute x ->
             Builtin_attributes.warning_attribute x;
-            if toplevel then Builtin_attributes.mark_alert_used x;
+            if toplevel || not (Warnings.is_active (Misplaced_attribute "")) then
+              Builtin_attributes.mark_alert_used x;
             let (trem,rem, final_env) = transl_sig env srem in
             mksig (Tsig_attribute x) env loc :: trem, rem, final_env
         | Psig_extension (ext, _attrs) ->
@@ -2834,7 +2835,8 @@ and type_structure ?(toplevel = false) funct_body anchor env sstr =
         raise (Error_forward (Builtin_attributes.error_of_extension ext))
     | Pstr_attribute x ->
         Builtin_attributes.warning_attribute x;
-        if toplevel then Builtin_attributes.mark_alert_used x;
+        if toplevel || not (Warnings.is_active (Misplaced_attribute "")) then
+          Builtin_attributes.mark_alert_used x;
         Tstr_attribute x, [], shape_map, env
   in
   let rec type_struct env shape_map sstr =
