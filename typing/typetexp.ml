@@ -438,8 +438,12 @@ and transl_type_aux env ~row_context ~aliased ~policy styp =
     ctyp (Ttyp_arrow (l, cty1, cty2)) ty
   | Ptyp_tuple stl ->
     assert (List.length stl >= 2);
-    let ctys = List.map (transl_type env ~policy ~row_context) stl in
-    let ty = newty (Ttuple (List.map (fun ctyp -> ctyp.ctyp_type) ctys)) in
+    let ctys =
+      List.map (fun (l, t) -> l, transl_type env ~policy ~row_context t) stl
+    in
+    let ty =
+      newty (Ttuple (List.map (fun (l, ctyp) -> l, ctyp.ctyp_type) ctys))
+    in
     ctyp (Ttyp_tuple ctys) ty
   | Ptyp_constr(lid, stl) ->
       let (path, decl) = Env.lookup_type ~loc:lid.loc lid.txt env in
