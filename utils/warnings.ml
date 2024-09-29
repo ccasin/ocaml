@@ -199,7 +199,7 @@ let number = function
    the testsuite/ests/warnings/mnemonics.mll test to determine where
    the  definition of the number function above ends *)
 
-let last_warning_number = 74
+let last_warning_number = 75
 
 type description =
   { number : int;

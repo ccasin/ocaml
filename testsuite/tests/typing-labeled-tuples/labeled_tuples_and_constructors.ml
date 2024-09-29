@@ -60,8 +60,8 @@ let _ = f (Foo (5,1))
 Line 1, characters 15-20:
 1 | let _ = f (Foo (5,1))
                    ^^^^^
-Error: This expression has type 'a * 'b
-       but an expression was expected of type x:int * int
+Error: This expression has type "'a * 'b"
+       but an expression was expected of type "x:int * int"
 |}]
 
 let _ = f (Foo (5,~x:1))
@@ -69,8 +69,8 @@ let _ = f (Foo (5,~x:1))
 Line 1, characters 15-23:
 1 | let _ = f (Foo (5,~x:1))
                    ^^^^^^^^
-Error: This expression has type 'a * x:'b
-       but an expression was expected of type x:int * int
+Error: This expression has type "'a * x:'b"
+       but an expression was expected of type "x:int * int"
 |}]
 
 let _ = f (Foo (5,~y:1))
@@ -78,7 +78,7 @@ let _ = f (Foo (5,~y:1))
 Line 1, characters 15-23:
 1 | let _ = f (Foo (5,~y:1))
                    ^^^^^^^^
-Error: This expression has type 'a * y:'b
-       but an expression was expected of type x:int * int
+Error: This expression has type "'a * y:'b"
+       but an expression was expected of type "x:int * int"
 |}]
 
