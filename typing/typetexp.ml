@@ -46,6 +46,7 @@ type error =
   | Method_mismatch of string * type_expr * type_expr
   | Opened_object of Path.t option
   | Not_an_object of type_expr
+  | Repeated_tuple_label of string
 
 exception Error of Location.t * Env.t * error
 exception Error_forward of Location.error
@@ -438,6 +439,8 @@ and transl_type_aux env ~row_context ~aliased ~policy styp =
     ctyp (Ttyp_arrow (l, cty1, cty2)) ty
   | Ptyp_tuple stl ->
     assert (List.length stl >= 2);
+    Option.iter (fun l -> raise (Error (loc, env, Repeated_tuple_label l)))
+      (Misc.repeated_label stl);
     let ctys =
       List.map (fun (l, t) -> l, transl_type env ~policy ~row_context t) stl
     in
@@ -961,6 +964,9 @@ let report_error_doc env ppf = function
   | Not_an_object ty ->
       fprintf ppf "@[The type %a@ is not an object type@]"
         pp_type ty
+  | Repeated_tuple_label l ->
+      fprintf ppf "@[This tuple type has two labels named %a@]"
+        Style.inline_code l
 
 let () =
   Location.register_error_of_exn

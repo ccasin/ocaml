@@ -95,7 +95,7 @@ Error: This expression has type "a:'a * 'b * c:'c"
 
 (* Wrong label *)
 let foo b = if b then
-   ~a: "s", 10, ~a: "hi"
+   ~a: "s", 10, ~b: "hi"
 else
    ~a: "5", 10, ~c: "hi"
 [%%expect{|
@@ -103,7 +103,32 @@ Line 4, characters 3-24:
 4 |    ~a: "5", 10, ~c: "hi"
        ^^^^^^^^^^^^^^^^^^^^^
 Error: This expression has type "a:string * int * c:'a"
-       but an expression was expected of type "a:string * int * a:string"
+       but an expression was expected of type "a:string * int * b:string"
+|}]
+
+(* Repeated labels *)
+type t = x:int * bool * x:int
+[%%expect{|
+Line 1, characters 9-29:
+1 | type t = x:int * bool * x:int
+             ^^^^^^^^^^^^^^^^^^^^
+Error: This tuple type has two labels named "x"
+|}]
+
+let _ = 1, ~x:2, 3, ~x:4
+[%%expect{|
+Line 1, characters 8-24:
+1 | let _ = 1, ~x:2, 3, ~x:4
+            ^^^^^^^^^^^^^^^^
+Error: This tuple expression has two labels named "x"
+|}]
+
+let f (a, ~x, b, ~x:c) = ()
+[%%expect{|
+Line 1, characters 6-22:
+1 | let f (a, ~x, b, ~x:c) = ()
+          ^^^^^^^^^^^^^^^^
+Error: This tuple pattern has two labels named "x"
 |}]
 
 (* Types in function argument/return *)
@@ -515,21 +540,17 @@ val tree_abcde : Tree.t =
 |}]
 
 (* Motivating example *)
-let two_kinds_of_sums ints =
-  let init = (~normal_sum:0, ~absolute_value_sum:0) in
-  List.fold_left (fun (~normal_sum, ~absolute_value_sum) elem ->
-    let normal_sum         = elem + normal_sum             in
-    let absolute_value_sum = abs elem + absolute_value_sum in
-    (~normal_sum, ~absolute_value_sum))
-    init ints
-
-let _ = two_kinds_of_sums [1;2;3;4]
-let _ = two_kinds_of_sums [1;2;-3;42;-17]
+let sum_and_product ints =
+  let init = ~sum:0, ~product:1 in
+  List.fold_left (fun (~sum, ~product) elem ->
+    let sum = elem + sum in
+    let product = elem * product in
+    ~sum, ~product
+  ) init ints
+let _ = sum_and_product [1;2;3;4]
+let _ = sum_and_product [1;-10;2;]
 [%%expect{|
-val two_kinds_of_sums : int list -> normal_sum:int * absolute_value_sum:int =
-  <fun>
-- : normal_sum:int * absolute_value_sum:int =
-(~normal_sum:10, ~absolute_value_sum:10)
-- : normal_sum:int * absolute_value_sum:int =
-(~normal_sum:25, ~absolute_value_sum:65)
+val sum_and_product : int list -> sum:int * product:int = <fun>
+- : sum:int * product:int = (~sum:10, ~product:24)
+- : sum:int * product:int = (~sum:-7, ~product:-20)
 |}]

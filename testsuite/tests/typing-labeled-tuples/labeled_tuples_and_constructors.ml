@@ -12,7 +12,8 @@ type ('a, 'b) pair = Pair of 'a * 'b
 Line 2, characters 8-23:
 2 | let x = Pair (~x: 5, 2)
             ^^^^^^^^^^^^^^^
-Error: Constructors cannot have labeled arguments. Consider using an inline record instead.
+Error: Constructors cannot have labeled arguments.
+       Consider using an inline record instead.
 |}]
 
 (* Labeled tuple pattern in constructor pattern, with the same arity as the
@@ -24,10 +25,11 @@ let f = function
 Line 2, characters 2-16:
 2 | | Pair (~x:5, 2) -> true
       ^^^^^^^^^^^^^^
-Error: Constructors cannot have labeled arguments. Consider using an inline record instead.
+Error: Constructors cannot have labeled arguments.
+       Consider using an inline record instead.
 |}]
 
-(* Labeled tuple patterns in constructor patterns with that can union with the
+(* Labeled tuple patterns in constructor patterns with that can unify with the
    constructor pattern type. *)
 let f = function
 | Some (~x:5, 2) -> true

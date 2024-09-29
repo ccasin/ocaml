@@ -205,6 +205,8 @@ type error =
   | Missing_type_constraint
   | Wrong_expected_kind of wrong_kind_sort * wrong_kind_context * type_expr
   | Expr_not_a_record_type of type_expr
+  | Repeated_tuple_exp_label of string
+  | Repeated_tuple_pat_label of string
 
 
 let not_principal fmt =
@@ -1855,6 +1857,9 @@ and type_pat_aux
         (* TODO: record 'extra' to remember about interval *)
   | Ppat_tuple (spl, closed) ->
       assert (closed = Open || List.length spl >= 2);
+      Option.iter
+        (fun l -> raise (Error (loc, !!penv, Repeated_tuple_pat_label l)))
+        (Misc.repeated_label spl);
       let args =
         match get_desc (expand_head !!penv expected_ty) with
         (* If it's a principally-known tuple pattern, try to reorder *)
@@ -3760,6 +3765,9 @@ and type_expect_
         exp_env = env }
   | Pexp_tuple sexpl ->
       assert (List.length sexpl >= 2);
+      Option.iter
+        (fun l -> raise (Error (loc, env, Repeated_tuple_exp_label l)))
+        (Misc.repeated_label sexpl);
       let labeled_subtypes = List.map (fun (l, _) -> l, newgenvar ()) sexpl in
       let to_unify = newgenty (Ttuple labeled_subtypes) in
       with_explanation (fun () ->
@@ -6757,7 +6765,7 @@ let report_error ~loc env = function
        (Style.as_inline_code longident) lid expected provided
   | Constructor_labeled_arg ->
       Location.errorf ~loc
-       "Constructors cannot have labeled arguments. \
+       "Constructors cannot have labeled arguments.@ \
         Consider using an inline record instead."
   | Partial_tuple_pattern_bad_type ->
       Location.errorf ~loc
@@ -7234,6 +7242,14 @@ let report_error ~loc env = function
         "This expression has type %a@ \
          which is not a record type."
         (Style.as_inline_code Printtyp.type_expr) ty
+  | Repeated_tuple_exp_label l ->
+      Location.errorf ~loc
+        "@[This tuple expression has two labels named %a@]"
+        Style.inline_code l
+  | Repeated_tuple_pat_label l ->
+      Location.errorf ~loc
+        "@[This tuple pattern has two labels named %a@]"
+        Style.inline_code l
 
 let report_error ~loc env err =
   Printtyp.wrap_printing_env ~error:true env
