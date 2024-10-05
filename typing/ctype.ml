@@ -2420,20 +2420,23 @@ let rec mcomp type_pairs env t1 t2 =
             raise Incompatible
       end
 
-and mcomp_list type_pairs env tl1 tl2 =
+and mcomp_list_gen : 'a . get_ty:('a -> _) -> _ -> _ -> 'a list -> 'a list -> _ =
+  fun ~get_ty type_pairs env tl1 tl2 ->
   if List.length tl1 <> List.length tl2 then
     raise Incompatible;
-  List.iter2 (mcomp type_pairs env) tl1 tl2
+  List.iter2 (fun ty1 ty2 -> mcomp type_pairs env (get_ty ty1) (get_ty ty2))
+    tl1 tl2
 
-and mcomp_labeled_list type_pairs env labeled_tl1 labeled_tl2 =
-  if 0 <> List.compare_lengths labeled_tl1 labeled_tl2 then
-    raise Incompatible;
+and mcomp_list type_pairs env tl1 tl2 =
+  mcomp_list_gen ~get_ty:(fun ty -> ty) type_pairs env tl1 tl2
+
+and mcomp_labeled_list type_pairs env tl1 tl2 =
+  mcomp_list_gen ~get_ty:(fun (_, ty) -> ty) type_pairs env tl1 tl2;
   List.iter2
-    (fun (label1, ty1) (label2, ty2) ->
+    (fun (label1, _) (label2, _) ->
       if not (Option.equal String.equal label1 label2) then
-        raise Incompatible;
-      mcomp type_pairs env ty1 ty2)
-    labeled_tl1 labeled_tl2
+        raise Incompatible)
+    tl1 tl2
 
 and mcomp_fields type_pairs env ty1 ty2 =
   if not (concrete_object ty1 && concrete_object ty2) then assert false;
