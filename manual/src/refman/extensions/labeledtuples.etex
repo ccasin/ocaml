@@ -97,3 +97,13 @@ type.
 
 Labeled tuples do not support projection (extracting an element of the tuple by
 label).
+
+\subsubsection*{sss:labledtuples-smlrelation}{Relationship to flexible records}
+
+Labeled tuples are similar in spirit to SML's flexible records. The primary
+difference is that SML records are canonically ordered based on label name,
+while labeled tuples are not. So, for example, "x:int * y:bool" and "y:bool *
+x:int" are different types in OCaml, corresponding to two different orderings of
+the fields in the runtime block. In SML, the corresponding record types are
+considered equal and the runtime block is always ordered with the "x" field
+first.
